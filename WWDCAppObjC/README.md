@@ -26,6 +26,23 @@ WWDCAppObjC/
 └── Resources/                   # Images and assets
 ```
 
+## 💻 Programmatic UI Approach
+
+**This app uses 100% programmatic UI - no Storyboards or XIBs required!**
+
+All views are created and laid out in code using:
+- Auto Layout with `NSLayoutConstraint`
+- Programmatic view hierarchy in `viewDidLoad`
+- No Interface Builder dependencies
+
+**Why Programmatic?**
+- ✅ Better for version control (no XML merge conflicts)
+- ✅ More explicit and easier to review
+- ✅ Matches the pure-code nature of SwiftUI
+- ✅ Educational value in understanding UIKit fundamentals
+
+The provided `Info.plist.template` is pre-configured for this approach (no storyboard references).
+
 ## 🎬 Story Pages
 
 1. **Intro** (✅ Fully Implemented) - "Once upon a time..." with animations
@@ -59,13 +76,24 @@ WWDCAppObjC/
 
 ### 3. Configure Project Settings
 
-#### Remove Storyboard (Optional - for pure programmatic UI)
-1. Select your project target
-2. Go to **Info** tab
-3. Remove **Main storyboard file base name** entry
-4. Go to **Build Settings**
-5. Search for "Main"
-6. Clear **UIMainStoryboardFile** value
+#### Info.plist Configuration
+
+This app uses **fully programmatic UI** with no storyboards or XIBs.
+
+**Option 1: Use the provided template (Recommended)**
+1. Delete the default `Info.plist` in your Xcode project
+2. Copy `Info.plist.template` to your project folder
+3. Rename it to `Info.plist`
+4. The template is already configured for programmatic UI (no launch screen)
+
+**Option 2: Modify existing Info.plist**
+1. Select your project target → **Info** tab
+2. Remove **Main storyboard file base name** entry
+3. Remove **Launch screen interface file base name** entry (if present)
+4. Go to **Build Settings** → Search for "Main"
+5. Clear **UIMainStoryboardFile** value
+
+**Note:** The app launches directly from `AppDelegate` without storyboards. If you want to add a launch screen later, create `LaunchScreen.storyboard` and add `UILaunchStoryboardName` key to Info.plist.
 
 #### Add Images
 1. Open `Assets.xcassets`
@@ -215,6 +243,17 @@ HKFirstDayViewController *firstDayVC = [[HKFirstDayViewController alloc] init];
 - Check that file names match import statements
 - Verify minimum deployment target is set
 
+**Launch Screen Warnings:**
+- If Xcode warns about missing LaunchScreen.storyboard, that's expected
+- This app uses programmatic UI without storyboards
+- To suppress: Remove `UILaunchStoryboardName` from Info.plist (already done in template)
+- To add one: Create LaunchScreen.storyboard via File > New > File > Launch Screen
+
+**Black Screen on Launch:**
+- Verify `AppDelegate.m` creates and shows the window
+- Check that `application:didFinishLaunchingWithOptions:` returns YES
+- Ensure Info.plist has no storyboard references
+
 **Images Not Showing:**
 - Check image names in Assets.xcassets match exactly
 - Images must be added to the target
@@ -228,7 +267,7 @@ HKFirstDayViewController *firstDayVC = [[HKFirstDayViewController alloc] init];
 
 - [UIViewController Documentation](https://developer.apple.com/documentation/uikit/uiviewcontroller)
 - [UIPageViewController Guide](https://developer.apple.com/documentation/uikit/uipageviewcontroller)
-- [AVSpeechSynthesizer Reference](https://developer.apple.com/documentation/avfoundation/avspeechsynthesizer)
+- [AVSpeechSynthesizer Reference](https://developer.apple.com/documentation/avfaudio/avspeechsynthesizer)
 
 ## 🎓 Learning Objectives
 
