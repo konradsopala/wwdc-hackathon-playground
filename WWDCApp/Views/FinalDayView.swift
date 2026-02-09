@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 /// The final day page showing anxious characters waiting for hackathon results.
 ///
@@ -21,8 +22,15 @@ struct FinalDayView: View {
     /// Audio narrator instance for text-to-speech
     @State private var narrator = AudioNarrator()
 
+    /// Cancellable subscription for the timer
+    /// Stored to ensure the timer is properly cancelled when the view disappears,
+    /// preventing memory leaks and unnecessary background processing
+    @State private var timerCancellable: Cancellable?
+
     /// Timer publisher that fires every second to update the countdown
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    /// Note: This timer is manually connected in onAppear and cancelled in onDisappear
+    /// to prevent it from continuing to fire after the view is no longer visible
+    let timer = Timer.publish(every: 1, on: .main, in: .common)
 
     /// Target date for the results announcement
     /// Update the year, month, and day as needed for your use case
@@ -98,9 +106,16 @@ struct FinalDayView: View {
             updateTimeRemaining()
             startAnimations()
             narrator.speak("Finally, after co-operating and helping each other for one week, they had to submit their robust playgrounds. Feeling anxious and nervous about the results, they started looking into uncertain future")
+
+            // Manually connect the timer and store the cancellable for cleanup
+            timerCancellable = timer.connect()
         }
         .onDisappear {
             narrator.stop()
+
+            // Cancel the timer to prevent it from continuing to fire
+            timerCancellable?.cancel()
+            timerCancellable = nil
         }
         .onReceive(timer) { _ in
             updateTimeRemaining()
