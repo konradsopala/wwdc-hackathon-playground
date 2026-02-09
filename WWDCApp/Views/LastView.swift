@@ -1,8 +1,21 @@
 import SwiftUI
 
+/// The final page of the hackathon story showing the conclusion.
+///
+/// This view features:
+/// - An orange background matching the intro
+/// - "To be continued..." text that slides down from above
+/// - Three character heads that rotate continuously
+/// - Audio narration about the story of anticipation
+/// - A sense of closure while hinting at future developments
 struct LastView: View {
+    /// Vertical offset for the sliding text animation
     @State private var textOffset: CGFloat = -400
+
+    /// Rotation angle in degrees for the spinning character heads
     @State private var rotationDegrees = 0.0
+
+    /// Audio narrator instance for text-to-speech
     @State private var narrator = AudioNarrator()
 
     var body: some View {
@@ -54,6 +67,11 @@ struct LastView: View {
         }
     }
 
+    /// Starts the conclusion animations in sequence.
+    ///
+    /// Coordinates two animations:
+    /// 1. The "To be continued..." text slides down from off-screen
+    /// 2. After a 1.5 second delay, the character heads begin rotating continuously
     private func startAnimations() {
         // Slide down the "To be continued..." text
         withAnimation(.easeOut(duration: 2.0)) {

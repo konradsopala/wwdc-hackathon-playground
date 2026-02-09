@@ -1,6 +1,21 @@
 import SwiftUI
 
+/// The main content view that provides page-based navigation through the hackathon story.
+///
+/// `ContentView` uses a `TabView` with page style to create a swipeable storybook experience.
+/// Users can navigate between pages by:
+/// - Swiping left or right
+/// - Tapping the chevron navigation buttons
+/// - Using the page indicator dots
+///
+/// The view contains 5 story pages:
+/// 1. Intro - Introduction to the characters
+/// 2. First Day - Arrival at the hackathon
+/// 3. Second Day - Coding through day and night
+/// 4. Final Day - Waiting for results
+/// 5. Last Page - Conclusion
 struct ContentView: View {
+    /// The currently displayed page index (0-4)
     @State private var currentPage = 0
 
     var body: some View {

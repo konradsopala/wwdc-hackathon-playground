@@ -1,8 +1,21 @@
 import SwiftUI
 
+/// The first day page showing the characters arriving at the hackathon venue.
+///
+/// This view depicts:
+/// - A sky background with the hackathon venue
+/// - Three characters (Konrad, Blake, Yao) appearing with fade-in animation
+/// - Speech bubbles expressing their excitement
+/// - The core values of hackathons: Learn • Create • Share
+/// - Audio narration about the WWDC Scholarship contest
 struct FirstDayView: View {
+    /// Controls the visibility of character images
     @State private var showCharacters = false
+
+    /// Controls the visibility of speech bubbles
     @State private var showSpeechBubbles = false
+
+    /// Audio narrator instance for text-to-speech
     @State private var narrator = AudioNarrator()
 
     var body: some View {
@@ -83,6 +96,11 @@ struct FirstDayView: View {
         }
     }
 
+    /// Starts the sequential animations for character arrival.
+    ///
+    /// Animates in two stages:
+    /// 1. Characters fade in after a short delay
+    /// 2. Speech bubbles pop in with a spring animation
     private func startAnimations() {
         // Show characters first
         withAnimation(.easeIn(duration: 1.0).delay(0.5)) {
@@ -96,8 +114,19 @@ struct FirstDayView: View {
     }
 }
 
+/// A custom speech bubble view component with a triangular tail.
+///
+/// This reusable component creates a chat-bubble style UI element
+/// that can be customized with different text and colors.
+///
+/// - Parameters:
+///   - text: The message to display in the bubble
+///   - color: The background color of the bubble
 struct SpeechBubble: View {
+    /// The text content displayed in the speech bubble
     let text: String
+
+    /// The background color of the speech bubble
     let color: Color
 
     var body: some View {
@@ -122,7 +151,15 @@ struct SpeechBubble: View {
     }
 }
 
+/// A custom triangle shape used as the tail of speech bubbles.
+///
+/// Creates an isosceles triangle pointing downward, which is then rotated
+/// to create the classic speech bubble tail effect.
 struct Triangle: Shape {
+    /// Creates the triangular path within the given rectangle.
+    ///
+    /// - Parameter rect: The rectangle in which to draw the triangle
+    /// - Returns: A path representing the triangle shape
     func path(in rect: CGRect) -> Path {
         var path = Path()
         path.move(to: CGPoint(x: rect.midX, y: rect.minY))

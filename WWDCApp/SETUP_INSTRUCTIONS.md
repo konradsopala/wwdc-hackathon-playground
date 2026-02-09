@@ -85,13 +85,13 @@ From `Hackathon.playground/Pages/LastPage.xcplaygroundpage/Resources/`:
 3. Drag and drop each image file into the asset catalog
 4. Make sure each image name matches the names used in the code
 
-### 4. Configure Info.plist for Audio
+### 4. Info.plist Configuration
 
-Since the app uses AVFoundation for audio narration, you may need to add privacy descriptions:
+**Good news!** This app uses `AVSpeechSynthesizer` for text-to-speech narration, which does **not** require any privacy permissions or Info.plist entries.
 
-1. Open your project's `Info.plist`
-2. Add the following if needed for audio:
-   - **Privacy - Microphone Usage Description** (if using microphone): "This app uses text-to-speech for narration"
+Text-to-speech is audio *output* only. You only need microphone permissions (`Privacy - Microphone Usage Description`) if your app records audio or uses speech *recognition*, which this app does not.
+
+No Info.plist changes are needed for this project.
 
 ### 5. Build and Run
 

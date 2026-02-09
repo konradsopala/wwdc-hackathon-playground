@@ -1,14 +1,31 @@
 import SwiftUI
 
+/// The final day page showing anxious characters waiting for hackathon results.
+///
+/// This view features:
+/// - A countdown timer showing days, hours, minutes, and seconds until results
+/// - Three anxious characters with animated sweat drops
+/// - A dramatic brown/red background conveying tension
+/// - Audio narration about the anticipation and nervousness
+/// - Real-time timer updates every second
 struct FinalDayView: View {
+    /// The remaining time until the target announcement date
     @State private var timeRemaining = TimeComponents(days: 0, hours: 0, minutes: 0, seconds: 0)
+
+    /// Controls the visibility of sweat drop animations
     @State private var showSweat = false
+
+    /// Vertical offset for the falling sweat animation
     @State private var sweatOffset: CGFloat = 0
+
+    /// Audio narrator instance for text-to-speech
     @State private var narrator = AudioNarrator()
 
+    /// Timer publisher that fires every second to update the countdown
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
-    // Target date: April 20, 2026 (update for current year)
+    /// Target date for the results announcement
+    /// Update the year, month, and day as needed for your use case
     let targetDate: Date = {
         var components = DateComponents()
         components.year = 2026
@@ -90,6 +107,10 @@ struct FinalDayView: View {
         }
     }
 
+    /// Updates the countdown timer by calculating the time difference between now and the target date.
+    ///
+    /// Called every second by the timer publisher and once on view appearance.
+    /// Ensures all values are non-negative (won't show negative time if date has passed).
     private func updateTimeRemaining() {
         let now = Date()
         let components = Calendar.current.dateComponents(
@@ -106,6 +127,11 @@ struct FinalDayView: View {
         )
     }
 
+    /// Starts the anxiety animations after a brief delay.
+    ///
+    /// Initiates two animations:
+    /// 1. Fades in the sweat drops after 1 second
+    /// 2. Continuously animates the sweat falling downward
     private func startAnimations() {
         // Show sweat drops with delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -121,15 +147,32 @@ struct FinalDayView: View {
     }
 }
 
+/// A data structure representing time components for the countdown display.
+///
+/// Breaks down time into easily displayable units.
 struct TimeComponents {
+    /// Number of full days remaining
     var days: Int
+
+    /// Number of hours remaining (0-23)
     var hours: Int
+
+    /// Number of minutes remaining (0-59)
     var minutes: Int
+
+    /// Number of seconds remaining (0-59)
     var seconds: Int
 }
 
+/// A view component displaying a single unit of time in the countdown.
+///
+/// Shows a numeric value with its unit label in a vertically stacked layout.
+/// Used to display days, hours, minutes, or seconds.
 struct TimeUnitView: View {
+    /// The numeric value to display
     let value: Int
+
+    /// The time unit label (e.g., "Days", "Hours")
     let unit: String
 
     var body: some View {
@@ -146,9 +189,18 @@ struct TimeUnitView: View {
     }
 }
 
+/// A view component showing an anxious character with an animated sweat drop.
+///
+/// Displays a character image with a sweat drop positioned above their head
+/// that can animate downward to convey anxiety or nervousness.
 struct CharacterWithSweat: View {
+    /// The asset name for the character's image
     let image: String
+
+    /// Whether to show the sweat drop
     let showSweat: Bool
+
+    /// Vertical offset for the sweat drop animation
     let sweatOffset: CGFloat
 
     var body: some View {

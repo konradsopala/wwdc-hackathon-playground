@@ -1,10 +1,28 @@
 import SwiftUI
 
+/// The second day page showing the coding marathon through day and night.
+///
+/// This view features:
+/// - A teal background representing the coding environment
+/// - A window showing day/night cycle transition
+/// - Flying bird animation during daytime
+/// - Three characters coding with their code output appearing sequentially
+/// - Code snippets that fade in and scale up for emphasis
+/// - Audio narration about the iOS development community
 struct SecondDayView: View {
+    /// Controls the bird flying animation state
     @State private var animateBirds = false
+
+    /// Controls visibility of code snippets for each character
     @State private var showCode = [false, false, false]
+
+    /// Scale values for each character's code output animation
     @State private var codeScale = [1.0, 1.0, 1.0]
+
+    /// Toggles between day and night mode in the window
     @State private var isDayTime = true
+
+    /// Audio narrator instance for text-to-speech
     @State private var narrator = AudioNarrator()
 
     var body: some View {
@@ -86,6 +104,12 @@ struct SecondDayView: View {
         }
     }
 
+    /// Orchestrates multiple animations showing the passage of time and coding activity.
+    ///
+    /// Coordinates three types of animations:
+    /// 1. Continuous bird flying motion during daytime
+    /// 2. Staggered code output appearance for each character (every 2 seconds)
+    /// 3. Day-to-night transition after 8 seconds
     private func startAnimations() {
         // Bird animation
         withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
@@ -113,11 +137,31 @@ struct SecondDayView: View {
     }
 }
 
+/// A view component showing a character coding with their code output.
+///
+/// Displays a character image with an optional code snippet above them.
+/// The code appears with a fade-in and scale animation to draw attention.
+///
+/// - Parameters:
+///   - name: The character's name (for identification)
+///   - image: The asset name for the character's image
+///   - code: The code snippet to display
+///   - showCode: Whether to show the code snippet
+///   - scale: The scale factor for the code animation
 struct CodingHackerView: View {
+    /// The character's name
     let name: String
+
+    /// The asset name for the character's back view image
     let image: String
+
+    /// The code snippet this character is working on
     let code: String
+
+    /// Whether to display the code snippet
     let showCode: Bool
+
+    /// Scale factor for the code appearance animation
     let scale: Double
 
     var body: some View {

@@ -1,8 +1,23 @@
 import SwiftUI
 
+/// The introduction page of the hackathon story.
+///
+/// This view presents the opening scene with:
+/// - An orange background
+/// - Pulsing "Once upon a time..." text
+/// - Three character heads (Konrad, Yao, Blake) with subtle animation
+/// - Audio narration introducing the story
+///
+/// The view automatically starts animations and narration when it appears,
+/// and properly cleans up audio when it disappears.
 struct IntroView: View {
+    /// Opacity value for the pulsing title text animation
     @State private var textOpacity: Double = 0
+
+    /// Horizontal offset for the character heads animation
     @State private var headsOffset: CGFloat = 0
+
+    /// Audio narrator instance for text-to-speech
     @State private var narrator = AudioNarrator()
 
     var body: some View {
@@ -47,6 +62,11 @@ struct IntroView: View {
         }
     }
 
+    /// Starts the intro animations when the view appears.
+    ///
+    /// This method initiates two animations:
+    /// 1. A continuous pulsing effect on the title text
+    /// 2. A subtle horizontal movement of the character heads
     private func startAnimations() {
         // Pulsing text animation
         withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
