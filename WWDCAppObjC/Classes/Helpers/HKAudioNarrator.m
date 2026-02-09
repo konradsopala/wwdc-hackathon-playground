@@ -49,10 +49,7 @@
     utterance.rate = rate;
     utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:language];
 
-    // Update speaking state
-    self.isSpeaking = YES;
-
-    // Speak the utterance
+    // Speak the utterance (isSpeaking will be set by didStartSpeechUtterance: delegate)
     [self.synthesizer speakUtterance:utterance];
 }
 

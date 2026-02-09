@@ -40,6 +40,8 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.narrator stop];
+    [self.titleLabel.layer removeAllAnimations];
+    [self.headsContainerView.layer removeAllAnimations];
 }
 
 #pragma mark - Setup
@@ -126,12 +128,22 @@
 }
 
 - (void)animatePulsingText {
-    [UIView animateWithDuration:1.0
+    // First fade in
+    [UIView animateWithDuration:0.5
                           delay:0.0
-                        options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionCurveEaseInOut
+                        options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
         self.titleLabel.alpha = 1.0;
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        if (!finished) return;
+        // Then start pulsing
+        [UIView animateWithDuration:1.0
+                              delay:0.0
+                            options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+            self.titleLabel.alpha = 0.5;
+        } completion:nil];
+    }];
 }
 
 - (void)animateHeadsSlideIn {
