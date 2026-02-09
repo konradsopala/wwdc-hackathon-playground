@@ -15,7 +15,8 @@ struct IntroView: View {
     @State private var textOpacity: Double = 0
 
     /// Horizontal offset for the character heads animation
-    @State private var headsOffset: CGFloat = 0
+    /// Starts off-screen to the left and animates to center position
+    @State private var headsOffset: CGFloat = -300
 
     /// Audio narrator instance for text-to-speech
     @State private var narrator = AudioNarrator()
@@ -73,9 +74,9 @@ struct IntroView: View {
             textOpacity = 1.0
         }
 
-        // Heads moving together
+        // Heads sliding in from the left
         withAnimation(.easeInOut(duration: 7.0)) {
-            headsOffset = 0 // They start spread out and come together
+            headsOffset = 0 // Slide from off-screen (-300) to center (0)
         }
     }
 }
